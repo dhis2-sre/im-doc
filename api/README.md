@@ -1,29 +1,46 @@
-# Instance Manager API Tutorial
+# Instance Manager API User Guide
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
+
 
 - [Audience](#audience)
 - [Requirements](#requirements)
 - [Getting started](#getting-started)
-    - [Docs](#docs)
-    - [User scripts](#user-scripts)
-    - [Environment](#environment)
-- [User service](#user-service)
+  - [Docs](#docs)
+  - [User scripts](#user-scripts)
+  - [Environment](#environment)
+- [Services](#services)
+  - [User](#user)
     - [Signup](#signup)
     - [Signin](#signin)
     - [Me](#me)
     - [Groups](#groups)
-        - [Create group](#create-group)
-        - [Cluster configuration](#cluster-configuration)
-        - [Add user to group](#add-user-to-group)
+      - [Create group](#create-group)
+      - [Cluster configuration](#cluster-configuration)
+      - [Add user to group](#add-user-to-group)
+  - [Instance Manager](#instance-manager)
+    - [List instances](#list-instances)
+    - [Create an instance](#create-an-instance)
+    - [Deploy instance](#deploy-instance)
+    - [Stream instance logs](#stream-instance-logs)
+    - [Destroy instance](#destroy-instance)
+  - [Database Manager](#database-manager)
+    - [Create database](#create-database)
+    - [List databases](#list-databases)
+    - [Upload database](#upload-database)
+    - [Update database (rename)](#update-database-rename)
+    - [Find database URL](#find-database-url)
+    - [Find database](#find-database)
+    - [Lock database](#lock-database)
+    - [Unlock database](#unlock-database)
+  - [Inspector](#inspector)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Audience
 
-This tutorial is intended for users of the Instance Manager service.
+This tutorial is intended for users of the Instance Manager service API.
 
 We'll be targeting the dev environment on the test cluster found
 at [https://api.im.dev.test.c.dhis2.org](https://api.im.dev.test.c.dhis2.org).
@@ -67,6 +84,8 @@ Each service strives to implement set of scripts such that each endpoint comes w
 * [User](https://github.com/dhis2-sre/im-user/tree/master/scripts)
 * [Instance](https://github.com/dhis2-sre/im-manager/tree/master/scripts)
 * [Database](https://github.com/dhis2-sre/im-database-manager/tree/master/scripts)
+
+The intention of the scripts is to provide an example of each endpoint.
 
 ## Environment
 
@@ -125,9 +144,15 @@ The environment is configured correctly if the `health.sh` script returns 200 an
 ./health.sh
 ```
 
-# User Service
+# Services
 
-## Signup
+In the following we'll go over each service and show examples of interacting with various endpoints.
+
+## User
+
+The user service is in charge of users, groups and tokens.
+
+### Signup
 
 A user can be created using the `signUp.sh` script.
 
@@ -137,7 +162,7 @@ The script will automatically use the credentials defined in `.env`.
 ./signUp.sh
 ```
 
-## Signin
+### Signin
 
 After successfully signing up, the newly created user, can be used to sign in and retrieve an access token.
 
@@ -155,7 +180,7 @@ export ACCESS_TOKEN && eval $(./signIn.sh) && echo $ACCESS_TOKEN
 
 Assuming the signin was successful the access token will be printed on the terminal.
 
-## Me
+### Me
 
 The details of the current user can be retrieved by running the `me.sh` script.
 
@@ -163,7 +188,7 @@ The details of the current user can be retrieved by running the `me.sh` script.
 ./me.sh
 ```
 
-## Groups
+### Groups
 
 For the user to actually be able to do anything it needs to be part of a group. Only administrative users can create and
 add other users to groups.
@@ -174,7 +199,7 @@ Logging in as administrator can be done using the `signInAdmin.sh` script.
 
 Alternatively, an existing administrator can add your user to the relevant groups.
 
-### Create group
+#### Create group
 
 A group can be created using the `createGroup.sh` script.
 
@@ -184,11 +209,11 @@ Run the below command to create a group called "test-group" with hostname "im.c.
 ./createGroup.sh test-group im.c.127.0.0.1.nip.io
 ```
 
-### Cluster configuration
+#### Cluster configuration
 
 WIP
 
-### Add user to group
+#### Add user to group
 
 A user can be added to a given group using the `addUserToGroup.sh` script.
 
@@ -213,7 +238,7 @@ And then you can get your details.
 
 Which should show the groups of which the user is a member.
 
-# Instance Manager Service
+## Instance Manager
 
 The instance manager is in charge of creating, deploying, destroying and streaming of logs
 
@@ -241,7 +266,7 @@ http https://api.im.dev.test.c.dhis2.org/instances/health
 
 The service is running correctly if the above returns 200 and "status: up".
 
-## List instances
+### List instances
 
 A list of instance can be retrieved using the `list.sh` script.
 
@@ -255,3 +280,135 @@ list of instances and their groups. In which case the below command might prove 
 ```sh
 ./list.sh | jq -r '.[] | .Name, .Instances[].Name'
 ```
+
+### Create an instance
+
+An instances can be created using the `create.sh` script.
+
+Run the below command to create an instance with the name "test-instance" belonging to the group called "test-group"
+
+```sh
+./create.sh test-instance test-group
+```
+
+### Deploy instance
+
+An instances can be deployed using the `deploy.sh` script.
+
+Run the below command to deploy an instance with the name "test-instance" belonging to the group called "test-group"
+
+```sh
+./create.sh test-instance test-group
+```
+
+### Stream instance logs
+
+Logs can be streamed by using the `logs.sh` script.
+
+Run the below command to stream logs from the instance with the name "test-instance" belonging to the group called "
+test-group"
+
+```sh
+./logs.sh test-instance test-group
+```
+
+### Destroy instance
+
+...
+
+## Database Manager
+
+The Database Manager is in charge of creating, deleting, uploading, download, locking, unlocking and everything else
+related to databases.
+
+### Create database
+
+Databases can be created by using the `create.sh` script.
+
+Run the below command to create a database named "Sierra Leone" belonging to the group named whoami.
+
+```sh
+./create.sh "Sierra Leone" whoami
+```
+
+### List databases
+
+Databases can be listed by using the `list.sh` script.
+
+Run the below command to list all databases.
+
+```sh
+./list.sh "Sierra Leone" whoami
+```
+
+### Upload database
+
+???TODO: Fix upload on dev
+>./upload.sh 1 ~/Downloads/dhis2-db-sierra-leone.sql.gz
+>######################################################################################################################################################################################################################################## 100,0%
+>curl: (22) The requested URL returned error: 502
+>
+>[GIN] 2022/02/17 - 08:11:40 | 400 |   20.921023ms | 182.232.220.128 | POST     "/databases/1/upload"
+>Error #01: Error binding data: unexpected EOF
+
+Databases can be uploaded using the `upload.sh` script.
+
+Run the below command to upload the file ~/Downloads/dhis2-db-sierra-leone.sql.gz and associate it with the database
+identified by 1... English! (TODO/???)
+
+```sh
+./upload.sh 1 ~/Downloads/dhis2-db-sierra-leone.sql.gz
+```
+
+### Update database (rename)
+
+Databases can be renamed using the `update.sh` script.
+
+Run the below command to rename the database with id "1" in group "whoami" to "Sierra Leone Renamed"
+
+```sh
+./update.sh 1 "Sierra Leone Renamed" whoami
+```
+
+### Find database URL
+???
+
+### Find database
+
+A specific database can be retrieved by using the `findById.sh` script.
+
+Run the below command to retrieve the database with id "1"
+
+```sh
+./findById.sh 1
+```
+
+### Lock database
+
+A database can be locked by using the `lock.sh` script.
+
+Databases can be locked by an instance. The locking instance id is stored as part of the database in the "InstanceID" column.
+
+Once an instance has acquired a lock only that instance can save the database.
+
+Other users can still launch instances seeded with a locked database but won't be able to save to the original database. However, saving to a new destination using "save as" is still possible
+
+Run the below command to lock the database with id "1" to the instance with id "2"
+
+```sh
+./lock.sh 1 2
+```
+
+### Unlock database
+
+A database can be unlocked by using the `unlock.sh` script.
+
+Run the below command to unlock the database with id "1"
+
+```sh
+./unlock.sh 1
+```
+
+## Inspector
+
+...
