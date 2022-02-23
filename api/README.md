@@ -20,6 +20,7 @@
       - [Cluster configuration](#cluster-configuration)
       - [Add user to group](#add-user-to-group)
   - [Instance Manager](#instance-manager)
+    - [Hello, World!](#hello-world)
     - [List instances](#list-instances)
     - [Create an instance](#create-an-instance)
     - [Deploy instance](#deploy-instance)
@@ -266,6 +267,17 @@ http https://api.im.dev.test.c.dhis2.org/instances/health
 
 The service is running correctly if the above returns 200 and "status: up".
 
+### Hello, World!
+
+The intention of the `hello.sh` script is to illustrate a "complete" workflow convering creating, deploying, streaming
+of logs and finally destroying of an instance.
+
+Run the below command and click `ctrl` + `c` to destroy the instance
+
+```sh
+./hello.sh test
+```
+
 ### List instances
 
 A list of instance can be retrieved using the `list.sh` script.
@@ -343,18 +355,9 @@ Run the below command to list all databases.
 
 ### Upload database
 
-???TODO: Fix upload on dev
->./upload.sh 1 ~/Downloads/dhis2-db-sierra-leone.sql.gz
->######################################################################################################################################################################################################################################## 100,0%
->curl: (22) The requested URL returned error: 502
->
->[GIN] 2022/02/17 - 08:11:40 | 400 |   20.921023ms | 182.232.220.128 | POST     "/databases/1/upload"
->Error #01: Error binding data: unexpected EOF
-
 Databases can be uploaded using the `upload.sh` script.
 
-Run the below command to upload the file ~/Downloads/dhis2-db-sierra-leone.sql.gz and associate it with the database
-identified by 1... English! (TODO/???)
+Run the below command to upload the file ~/Downloads/dhis2-db-sierra-leone.sql.gz referencing the database with id 1
 
 ```sh
 ./upload.sh 1 ~/Downloads/dhis2-db-sierra-leone.sql.gz
@@ -371,6 +374,7 @@ Run the below command to rename the database with id "1" in group "whoami" to "S
 ```
 
 ### Find database URL
+
 ???
 
 ### Find database
@@ -387,11 +391,13 @@ Run the below command to retrieve the database with id "1"
 
 A database can be locked by using the `lock.sh` script.
 
-Databases can be locked by an instance. The locking instance id is stored as part of the database in the "InstanceID" column.
+Databases can be locked by an instance. The locking instance id is stored as part of the database in the "InstanceID"
+column.
 
 Once an instance has acquired a lock only that instance can save the database.
 
-Other users can still launch instances seeded with a locked database but won't be able to save to the original database. However, saving to a new destination using "save as" is still possible
+Other users can still launch instances seeded with a locked database but won't be able to save to the original database.
+However, saving to a new destination using "save as" is still possible
 
 Run the below command to lock the database with id "1" to the instance with id "2"
 
