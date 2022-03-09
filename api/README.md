@@ -363,6 +363,16 @@ Run the below command to upload the file ~/Downloads/dhis2-db-sierra-leone.sql.g
 ./upload.sh 1 ~/Downloads/dhis2-db-sierra-leone.sql.gz
 ```
 
+### Download database
+
+Databases can be downloaded using the `download.sh` script.
+
+Run the below command to download the database with id 1
+
+```sh
+./download.sh 1 > ~/Downloads/dhis2-db-sierra-leone.sql.gz
+```
+
 ### Update database (rename)
 
 Databases can be renamed using the `update.sh` script.
