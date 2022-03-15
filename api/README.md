@@ -30,6 +30,7 @@
     - [Create database](#create-database)
     - [List databases](#list-databases)
     - [Upload database](#upload-database)
+    - [Download database](#download-database)
     - [Update database (rename)](#update-database-rename)
     - [Find database URL](#find-database-url)
     - [Find database](#find-database)
