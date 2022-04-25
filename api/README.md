@@ -244,7 +244,7 @@ Which should show the groups of which the user is a member.
 The instance manager is in charge of creating, deploying, destroying and streaming of logs
 
 ```sh
-git clone git@github.com:dhis2-sre/im-user.git
+git clone git@github.com:dhis2-sre/im-manager.git
 
 cd scripts/
 ```
@@ -310,7 +310,7 @@ An instances can be deployed using the `deploy.sh` script.
 Run the below command to deploy an instance with the name "test-instance" belonging to the group called "test-group"
 
 ```sh
-./create.sh test-instance test-group
+./deploy.sh test-instance test-group
 ```
 
 ### Stream instance logs
@@ -350,7 +350,7 @@ Databases can be listed by using the `list.sh` script.
 Run the below command to list all databases.
 
 ```sh
-./list.sh "Sierra Leone" whoami
+./list.sh
 ```
 
 ### Upload database
