@@ -255,7 +255,7 @@ Configure a `.env` file matching what's defined for the user service.
 Export the above file and sign in to the service.
 
 ```sh
-export ACCESS_TOKEN="" && eval (./login.sh) && echo $ACCESS_TOKEN
+export ACCESS_TOKEN="" && eval $(./login.sh) && echo $ACCESS_TOKEN
 ```
 
 Assuming the above prints an access token the login was successful.
