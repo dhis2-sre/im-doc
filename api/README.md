@@ -92,7 +92,7 @@ The intention of the scripts is to provide an example of each endpoint.
 ## Environment
 
 Each service operates independently and serves its own set of end points. However, the services deployed in the "dev"
-environment are all access via the gateway.
+environment are all accessed via the gateway.
 
 Several services, including the gateway itself, depend on the user services so let's focus on that.
 
