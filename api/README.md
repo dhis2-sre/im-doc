@@ -270,7 +270,7 @@ The service is running correctly if the above returns 200 and "status: up".
 
 ### Hello, World!
 
-The intention of the `hello.sh` script is to illustrate a "complete" workflow convering creating, deploying, streaming
+The intention of the `hello.sh` script is to illustrate a "complete" workflow covering creating, deploying, streaming
 of logs and finally destroying of an instance.
 
 Run the below command and click `ctrl` + `c` to destroy the instance
