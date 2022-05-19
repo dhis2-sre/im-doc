@@ -327,7 +327,13 @@ test-group"
 
 ### Destroy instance
 
-...
+An instance can be destroyed using the `destroy.sh` script.
+
+Run the below command to destroy the instance with the name "test-instance" belonging to the group called "test-group"
+
+```sh
+./destroy.sh test-instance test-group
+```
 
 ## Database Manager
 
