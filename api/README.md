@@ -296,22 +296,22 @@ list of instances and their groups. In which case the below command might prove 
 
 ### Create an instance
 
-An instances can be created using the `create.sh` script.
+An instances can be created using the `dhis2-create.sh` script.
 
 Run the below command to create an instance with the name "test-instance" belonging to the group called "test-group"
 
 ```sh
-./create.sh test-instance test-group
+./dhis2-create.sh test-instance test-group
 ```
 
 ### Deploy instance
 
-An instances can be deployed using the `deploy.sh` script.
+An instances can be deployed using the `dhis2-deploy.sh` script.
 
 Run the below command to deploy an instance with the name "test-instance" belonging to the group called "test-group"
 
 ```sh
-./deploy.sh test-instance test-group
+./dhis2-deploy.sh test-instance test-group
 ```
 
 ### Stream instance logs
