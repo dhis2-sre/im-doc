@@ -281,7 +281,7 @@ Run the below command and click `ctrl` + `c` to destroy the instance
 
 ### List instances
 
-A list of instance can be retrieved using the `list.sh` script.
+A list of instances can be retrieved using the `list.sh` script.
 
 ```sh
 ./list.sh
@@ -296,7 +296,7 @@ list of instances and their groups. In which case the below command might prove 
 
 ### Create an instance
 
-An instances can be created using the `dhis2-create.sh` script.
+An instance can be created using the `dhis2-create.sh` script.
 
 Run the below command to create an instance with the name "test-instance" belonging to the group called "test-group"
 
@@ -306,7 +306,7 @@ Run the below command to create an instance with the name "test-instance" belong
 
 ### Deploy instance
 
-An instances can be deployed using the `dhis2-deploy.sh` script.
+An instance can be deployed using the `dhis2-deploy.sh` script.
 
 Run the below command to deploy an instance with the name "test-instance" belonging to the group called "test-group"
 
