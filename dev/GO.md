@@ -48,3 +48,10 @@ errors in IntelliJ when we deliberatly want to ignore the error.
 Prefer
 * `user` over `usr`
 
+### Initializing constructor
+
+> Sometimes the zero value isn't good enough and an initializing constructor is necessary
+https://go.dev/doc/effective_go#composite_literals
+
+Put the `New` function before the type declaration of the struct it creates.
+
