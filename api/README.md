@@ -22,14 +22,16 @@
   - [Instance Manager](#instance-manager)
     - [Hello, World!](#hello-world)
     - [List instances](#list-instances)
-    - [Create an instance](#create-an-instance)
-    - [Deploy instance](#deploy-instance)
-    - [Stream instance logs](#stream-instance-logs)
+    - [Deploying instances](#deploying-instances)
+      - [Deploy a "monolith" instance (both DHIS2 core and a database)](#deploy-a-monolith-instance-both-dhis2-core-and-a-database)
+      - [Deploy database](#deploy-database)
+      - [Deploy pgAdmin](#deploy-pgadmin)
+      - [Deploy DHIS2 core](#deploy-dhis2-core)
+    - [Stream logs](#stream-logs)
     - [Destroy instance](#destroy-instance)
   - [Database Manager](#database-manager)
-    - [Create database](#create-database)
-    - [List databases](#list-databases)
     - [Upload database](#upload-database)
+    - [List databases](#list-databases)
     - [Download database](#download-database)
     - [Update database (rename)](#update-database-rename)
     - [Find database URL](#find-database-url)
@@ -126,7 +128,8 @@ Alternatively, a locally running cluster could be targeted as below
 INSTANCE_HOST=:8080
 ```
 
-> **_NOTE:_** Since the service we're targeting is running behind the gateway its health check endpoint is no longer served via `/health` but rather from `/users/health`.
+> **_NOTE:_** Since the service we're targeting is running behind the gateway its health check endpoint is no longer
+> served via `/health` but rather from `/users/health`.
 
 Considering the above, the health script needs to be updated to use the correct path.
 
@@ -222,7 +225,7 @@ A user can be added to a given group using the `addUserToGroup.sh` script.
 Run the below command to add the user with id "123" to the group called "test-group"
 
 ```sh
-./addUserToGroup.sh 123 test-group
+./addUserToGroup.sh test-group 123
 ```
 
 Assuming the above returns 201 you can use the "me.sh" script to retrieve your updated user details. But before doing so
@@ -276,7 +279,7 @@ of logs and finally destroying of an instance.
 Run the below command and click `ctrl` + `c` to destroy the instance
 
 ```sh
-./hello.sh test
+./hello.sh whoami test
 ```
 
 ### List instances
@@ -294,27 +297,47 @@ list of instances and their groups. In which case the below command might prove 
 ./list.sh | jq -r '.[] | .Name, .Instances[].Name'
 ```
 
-### Create an instance
+### Deploying instances
 
-An instance can be created using the `dhis2-create.sh` script.
+#### Deploy a "monolith" instance (both DHIS2 core and a database)
 
-Run the below command to create an instance with the name "test-instance" belonging to the group called "test-group"
-
-```sh
-./dhis2-create.sh test-instance test-group
-```
-
-### Deploy instance
-
-An instance can be deployed using the `dhis2-deploy.sh` script.
-
-Run the below command to deploy an instance with the name "test-instance" belonging to the group called "test-group"
+DHIS2 core along with a database can be deployed using the `deploy-dhis2.sh` script.
 
 ```sh
-./dhis2-deploy.sh test-instance test-group
+./deploy-dhis2.sh test-group test-instance
 ```
 
-### Stream instance logs
+#### Deploy database
+
+A database instance can be deployed using the `deploy-dhis2-db.sh` script.
+
+```sh
+./deploy-dhis2-db.sh test-group test-db-instance
+```
+
+#### Deploy pgAdmin
+
+A pgAdmin instance can be deployed using the `deploy-pgadmin.sh` script.
+
+The pgAdmin instance (test-pgadmin-instance) will connect to the database (test-db-instance) and retrieve the
+credentials needed to connect.
+
+```sh
+./deploy-pgadmin.sh test-group test-db-instance test-pgadmin-instance
+```
+
+#### Deploy DHIS2 core
+
+A DHIS2 core instance can be deployed using the `deploy-dhis2-core.sh` script.
+
+The DHIS2 core instance (test-dhis2-core-instance) will connect to the database (test-db-instance) and retrieve the
+credentials needed to connect.
+
+```sh
+./deploy-dhis2-core.sh test-group test-db-instance test-dhis2-core-instance
+```
+
+### Stream logs
 
 Logs can be streamed by using the `logs.sh` script.
 
@@ -322,7 +345,7 @@ Run the below command to stream logs from the instance with the name "test-insta
 test-group"
 
 ```sh
-./logs.sh test-instance test-group
+./logs.sh test-group test-instance
 ```
 
 ### Destroy instance
@@ -332,7 +355,13 @@ An instance can be destroyed using the `destroy.sh` script.
 Run the below command to destroy the instance with the name "test-instance" belonging to the group called "test-group"
 
 ```sh
-./destroy.sh test-instance test-group
+./destroy.sh test-group test-instance
+```
+
+Note that the `destroy.sh` script can be used to destroy multiple instances.
+
+```sh
+./destroy.sh test-group test-instance1 test-instance2 ...
 ```
 
 ## Database Manager
@@ -340,14 +369,14 @@ Run the below command to destroy the instance with the name "test-instance" belo
 The Database Manager is in charge of creating, deleting, uploading, download, locking, unlocking and everything else
 related to databases.
 
-### Create database
+### Upload database
 
-Databases can be created by using the `create.sh` script.
+Databases can be uploaded by using the `upload.sh` script.
 
-Run the below command to create a database named "Sierra Leone" belonging to the group named whoami.
+Run the below command to upload a database belonging to the group named whoami.
 
 ```sh
-./create.sh "Sierra Leone" whoami
+./upload.sh whoami ~/Downloads/dhis2-db-sierra-leone.sql.gz
 ```
 
 ### List databases
@@ -358,16 +387,6 @@ Run the below command to list all databases.
 
 ```sh
 ./list.sh
-```
-
-### Upload database
-
-Databases can be uploaded using the `upload.sh` script.
-
-Run the below command to upload the file ~/Downloads/dhis2-db-sierra-leone.sql.gz referencing the database with id 1
-
-```sh
-./upload.sh 1 ~/Downloads/dhis2-db-sierra-leone.sql.gz
 ```
 
 ### Download database
@@ -384,10 +403,10 @@ Run the below command to download the database with id 1
 
 Databases can be renamed using the `update.sh` script.
 
-Run the below command to rename the database with id "1" in group "whoami" to "Sierra Leone Renamed"
+Run the below command to rename the database with id "1" to "Sierra Leone Renamed"
 
 ```sh
-./update.sh 1 "Sierra Leone Renamed" whoami
+./update.sh 1 "Sierra Leone Renamed"
 ```
 
 ### Find database URL
