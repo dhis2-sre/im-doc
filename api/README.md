@@ -208,7 +208,7 @@ Alternatively, an existing administrator can add your user to the relevant group
 
 A group can be created using the `createGroup.sh` script.
 
-Run the below command to create a group called "test-group" with hostname "im.c.127.0.0.1.nip.io"
+Run the below command to create a group called "test-group" with hostname "im.c.127.0.0.1.nip.io".
 
 ```sh
 ./createGroup.sh test-group im.c.127.0.0.1.nip.io
@@ -216,13 +216,19 @@ Run the below command to create a group called "test-group" with hostname "im.c.
 
 #### Cluster configuration
 
-WIP
+A cluster configuration can be added to a group using the `addClusterConfigToGroup.sh` script.
+
+Run the below command to add a cluster configuration to the group called "test-group".
+
+```sh
+./createGroup.sh test-group ~/.kube/openstack.yaml
+```
 
 #### Add user to group
 
 A user can be added to a given group using the `addUserToGroup.sh` script.
 
-Run the below command to add the user with id "123" to the group called "test-group"
+Run the below command to add the user with id "123" to the group called "test-group".
 
 ```sh
 ./addUserToGroup.sh test-group 123
