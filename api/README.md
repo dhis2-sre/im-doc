@@ -58,6 +58,7 @@ The following applications are needed by the scripts
 
 * [httpie](https://github.com/httpie/httpie)
 * [jq](https://github.com/stedolan/jq)
+* [direnv](https://direnv.net/) (optional, but very nice to have!)
 
 # Getting started
 
