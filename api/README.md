@@ -20,6 +20,7 @@
       - [Cluster configuration](#cluster-configuration)
       - [Add user to group](#add-user-to-group)
   - [Instance Manager](#instance-manager)
+    - [Auto login](#auto-login)
     - [Hello, World!](#hello-world)
     - [List instances](#list-instances)
     - [Deploying instances](#deploying-instances)
