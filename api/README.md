@@ -76,7 +76,7 @@ The health status of the individual services can be found via the below links
 
 ## Docs
 
-Each service serves its own documentation and can be found via the following links
+Each service serves its own documentation which can be found via the following links
 
 * [User](https://api.im.dev.test.c.dhis2.org/users/docs)
 * [Instance](https://api.im.dev.test.c.dhis2.org/instances/docs)
@@ -90,12 +90,10 @@ Each service strives to implement set of scripts such that each endpoint comes w
 * [Instance](https://github.com/dhis2-sre/im-manager/tree/master/scripts)
 * [Database](https://github.com/dhis2-sre/im-database-manager/tree/master/scripts)
 
-The intention of the scripts is to provide an example of each endpoint.
-
 ## Environment
 
 Each service operates independently and serves its own set of end points. However, the services deployed in the "dev"
-environment are all accessed via the gateway.
+environment are all accessed through a [gateway](https://github.com/dhis2-sre/go-api-gateway).
 
 Several services, including the gateway itself, depend on the user services so let's focus on that.
 
@@ -152,7 +150,7 @@ The environment is configured correctly if the `health.sh` script returns 200 an
 
 # Services
 
-In the following we'll go over each service and show examples of interacting with various endpoints.
+In the following we'll go over each service and show examples of interacting with the various endpoints.
 
 ## User
 
@@ -260,16 +258,6 @@ git clone git@github.com:dhis2-sre/im-manager.git
 cd scripts/
 ```
 
-Configure a `.env` file matching what's defined for the user service.
-
-Export the above file and sign in to the service.
-
-```sh
-export ACCESS_TOKEN="" && eval $(./login.sh) && echo $ACCESS_TOKEN
-```
-
-Assuming the above prints an access token the login was successful.
-
 We can assert the service is running by running the below command
 
 ```sh
@@ -281,7 +269,7 @@ The service is running correctly if the above returns 200 and "status: up".
 ### Hello, World!
 
 The intention of the `hello.sh` script is to illustrate a "complete" workflow covering creating, deploying, streaming
-of logs and finally destroying of an instance.
+of logs and finally destroying an instance.
 
 Run the below command and click `ctrl` + `c` to destroy the instance
 
@@ -298,10 +286,10 @@ A list of instances can be retrieved using the `list.sh` script.
 ```
 
 The instance objects and friends contains several properties which might not be relevant if you're just trying to get a
-list of instances and their groups. In which case the below command might prove handy
+list of instance names and their groups. In which case the below command might prove handy
 
 ```sh
-./list.sh | jq -r '.[] | .Name, .Instances[].Name'
+./list.sh | jq -r '.[] | .Name, .Instances[]?.Name'
 ```
 
 ### Deploying instances
