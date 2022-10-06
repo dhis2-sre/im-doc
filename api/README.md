@@ -266,6 +266,12 @@ http https://api.im.dev.test.c.dhis2.org/instances/health
 
 The service is running correctly if the above returns 200 and "status: up".
 
+### Auto login
+
+Configure a `.env` file matching the credentials used for signing up on the user service.
+
+Most of the user scripts rely on the `auth.sh` script which will automatically request a new token if current token isn't found or has expired.
+
 ### Hello, World!
 
 The intention of the `hello.sh` script is to illustrate a "complete" workflow covering creating, deploying, streaming
