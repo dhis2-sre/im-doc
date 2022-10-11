@@ -39,6 +39,7 @@
     - [Find database](#find-database)
     - [Lock database](#lock-database)
     - [Unlock database](#unlock-database)
+    - [Save as](#save-as)
   - [Inspector](#inspector)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -271,7 +272,8 @@ The service is running correctly if the above returns 200 and "status: up".
 
 Configure a `.env` file matching the credentials used for signing up on the user service.
 
-Most of the user scripts rely on the `auth.sh` script which will automatically request a new token if current token isn't found or has expired.
+Most of the user scripts rely on the `auth.sh` script which will automatically request a new token if current token
+isn't found or has expired.
 
 ### Hello, World!
 
@@ -451,6 +453,17 @@ Run the below command to unlock the database with id "1"
 
 ```sh
 ./unlock.sh 1
+```
+
+### Save as
+
+A database can be saved, under a new name, by using the `unlock.sh` script.
+
+Run the below command to save the database associated with the instance named `db-1` in the group `whoami`
+as `new-database.pgc`
+
+```sh
+./saveAs.sh whoami db-1 new-database.pgc custom
 ```
 
 ## Inspector
