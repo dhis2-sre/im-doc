@@ -3,15 +3,14 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Audience](#audience)
 - [Requirements](#requirements)
 - [Getting started](#getting-started)
   - [Docs](#docs)
   - [User scripts](#user-scripts)
   - [Environment](#environment)
-- [Services](#services)
-  - [User](#user)
+- [Instance Manager](#instance-manager)
+  - [Users](#users)
     - [Signup](#signup)
     - [Signin](#signin)
     - [Me](#me)
@@ -19,7 +18,7 @@
       - [Create group](#create-group)
       - [Cluster configuration](#cluster-configuration)
       - [Add user to group](#add-user-to-group)
-  - [Instance Manager](#instance-manager)
+  - [Instances](#instances)
     - [Auto login](#auto-login)
     - [Hello, World!](#hello-world)
     - [List instances](#list-instances)
@@ -30,7 +29,7 @@
       - [Deploy DHIS2 core](#deploy-dhis2-core)
     - [Stream logs](#stream-logs)
     - [Destroy instance](#destroy-instance)
-  - [Database Manager](#database-manager)
+  - [Databases](#databases)
     - [Upload database](#upload-database)
     - [List databases](#list-databases)
     - [Download database](#download-database)
@@ -49,7 +48,7 @@
 This tutorial is intended for users of the Instance Manager service API.
 
 We'll be targeting the dev environment on the test cluster found
-at [https://api.im.dev.test.c.dhis2.org](https://api.im.dev.test.c.dhis2.org).
+at [https://dev.api.im.dhis2.org](https://dev.api.im.dhis2.org).
 
 Alternatively, a small project which can assists with the creation of a locally running cluster can be
 found [here](https://github.com/dhis2-sre/im-cluster).
@@ -64,45 +63,34 @@ The following applications are needed by the scripts
 
 # Getting started
 
-Run the below command to confirm the gateway is running.
+Run the below command to confirm the service is running.
 
 ```sh
-http https://api.im.dev.test.c.dhis2.org/gateway/health
+http https://dev.api.im.dhis2.org/health
 ```
-
-The health status of the individual services can be found via the below links
-
-* [User](https://api.im.dev.test.c.dhis2.org/users/health)
-* [Instance](https://api.im.dev.test.c.dhis2.org/instances/health)
-* [Database](https://api.im.dev.test.c.dhis2.org/databases/health)
 
 ## Docs
 
-Each service serves its own documentation which can be found via the following links
+The Instance Manager service API documentation can be found via the following link
 
-* [User](https://api.im.dev.test.c.dhis2.org/users/docs)
-* [Instance](https://api.im.dev.test.c.dhis2.org/instances/docs)
-* [Database](https://api.im.dev.test.c.dhis2.org/databases/docs)
+* [https://dev.api.im.dhis2.org/docs](https://dev.api.im.dhis2.org/docs)
 
 ## User scripts
 
-Each service strives to implement set of scripts such that each endpoint comes with an example of interaction.
+The service strives to implement set of scripts such that each endpoint comes with an example of interaction.
 
-* [User](https://github.com/dhis2-sre/im-user/tree/master/scripts)
-* [Instance](https://github.com/dhis2-sre/im-manager/tree/master/scripts)
-* [Database](https://github.com/dhis2-sre/im-database-manager/tree/master/scripts)
+* [User](https://github.com/dhis2-sre/im-manager/tree/master/scripts/users)
+* [Instance](https://github.com/dhis2-sre/im-manager/tree/master/scripts/instances)
+* [Database](https://github.com/dhis2-sre/im-database-manager/tree/master/scripts/databases)
 
 ## Environment
 
-Each service operates independently and serves its own set of end points. However, the services deployed in the "dev"
-environment are all accessed through a [gateway](https://github.com/dhis2-sre/go-api-gateway).
-
-Several services, including the gateway itself, depend on the user services so let's focus on that.
+The services deployed in the "dev" environment are all accessed through at [https://dev.api.im.dhis2.org](https://dev.api.im.dhis2.org).
 
 ```sh
-git clone git@github.com:dhis2-sre/im-user.git
+git clone git@github.com:dhis2-sre/im-manager.git
 
-cd scripts/
+cd scripts/users
 ```
 
 For the sake of simplicity the user scripts relies on a few environment variables. So in order to interact with the
@@ -120,7 +108,7 @@ In order to automatically export the variables, the author of this application r
 If we're targeting the "dev" environment, the variable `INSTANCE_HOST`, should be defined as below
 
 ```sh
-INSTANCE_HOST=https://api.im.dev.test.c.dhis2.org
+INSTANCE_HOST=https://dev.api.im.dhis2.org
 ```
 
 Alternatively, a locally running cluster could be targeted as below
@@ -150,13 +138,13 @@ The environment is configured correctly if the `health.sh` script returns 200 an
 ./health.sh
 ```
 
-# Services
+# Instance Manager
 
-In the following we'll go over each service and show examples of interacting with the various endpoints.
+In the following we'll go over Users, Instances and Databases and show examples of interacting with the various endpoints.
 
-## User
+## Users
 
-The user service is in charge of users, groups and tokens.
+The Users service is in charge of users, groups and tokens.
 
 ### Signup
 
@@ -209,10 +197,10 @@ Alternatively, an existing administrator can add your user to the relevant group
 
 A group can be created using the `createGroup.sh` script.
 
-Run the below command to create a group called "test-group" with hostname "im.c.127.0.0.1.nip.io".
+Run the below command to create a group called "test-group" with hostname "im.127.0.0.1.nip.io".
 
 ```sh
-./createGroup.sh test-group im.c.127.0.0.1.nip.io
+./createGroup.sh test-group im.127.0.0.1.nip.io
 ```
 
 #### Cluster configuration
@@ -250,20 +238,18 @@ And then you can get your details.
 
 Which should show the groups of which the user is a member.
 
-## Instance Manager
+## Instances
 
-The instance manager is in charge of creating, deploying, destroying and streaming of logs
+The Instances endpoints are in charge of creating, deploying, destroying and streaming of logs
 
 ```sh
-git clone git@github.com:dhis2-sre/im-manager.git
-
-cd scripts/
+cd scripts/instances
 ```
 
 We can assert the service is running by running the below command
 
 ```sh
-http https://api.im.dev.test.c.dhis2.org/instances/health
+http https://dev.api.im.dhis2.org/health
 ```
 
 The service is running correctly if the above returns 200 and "status: up".
@@ -368,9 +354,9 @@ Note that the `destroy.sh` script can be used to destroy multiple instances.
 ./destroy.sh test-group test-instance1 test-instance2 ...
 ```
 
-## Database Manager
+## Databases
 
-The Database Manager is in charge of creating, deleting, uploading, download, locking, unlocking and everything else
+The Databases endpoints are in charge of creating, deleting, uploading, download, locking, unlocking and everything else
 related to databases.
 
 ### Upload database
