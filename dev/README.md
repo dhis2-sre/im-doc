@@ -114,6 +114,7 @@ errors in IntelliJ when we deliberatly want to ignore the error.
 
 Prefer
 * `user` over `usr`
+* `parameter` over `param`
 
 ### Initializing constructor
 
