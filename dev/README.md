@@ -106,7 +106,7 @@ _ = os.Remove("file.go") // nolint:errcheck
 ```
 
 Reason: IntelliJ does not support nolint directives. Using the blank identifier removes linting
-errors in IntelliJ when we deliberatly want to ignore the error.
+errors in IntelliJ when we deliberately want to ignore the error.
 
 ### Naming
 
@@ -115,6 +115,10 @@ errors in IntelliJ when we deliberatly want to ignore the error.
 Prefer
 * `user` over `usr`
 * `parameter` over `param`
+
+### Variable declaration
+
+We follow the advice in [use a consistent declaration style](https://dave.cheney.net/practical-go/presentations/gophercon-israel.html#_use_a_consistent_declaration_style).
 
 ### Initializing constructor
 
