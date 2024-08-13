@@ -333,10 +333,10 @@ credentials needed to connect.
 
 Edit `./deploy-batch.yaml`. 
 
-* Configure a `prefix` in the preferences section and adjust any other preferences.
+* Configure a "prefix" (`IM_PREFIX_MULTI`) in the preferences section and adjust any other preferences.
 * Add or adjust the defined sets.
 
-The instances in a selected set will be deployed as a batch. The `prefix` will be added in front of each instance name (so that the same set can be deployed with different prefixes).
+The instances in a selected set will be deployed as a batch. The prefix will be added in front of each instance name (so that the same set can be deployed with different prefixes).
 
 Run the following to select the set (at a prompt) and deploy the instances:
 
