@@ -327,6 +327,23 @@ credentials needed to connect.
 ./deploy-dhis2-core.sh test-group test-db-instance test-dhis2-core-instance
 ```
 
+#### Deploy monolith instances in a pre-defined batch
+
+* Requires: [yq](https://github.com/mikefarah/yq)
+
+Edit `./deploy-batch.yaml`. 
+
+* Configure a `prefix` in the preferences section and adjust any other preferences.
+* Add or adjust the defined sets.
+
+The instances in a selected set will be deployed as a batch. The `prefix` will be added in front of each instance name (so that the same set can be deployed with different prefixes).
+
+Run the following to select the set (at a prompt) and deploy the instances:
+
+```sh
+./deploy-batch.sh
+```
+
 ### Stream logs
 
 Logs can be streamed by using the `logs.sh` script.
