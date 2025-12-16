@@ -48,7 +48,7 @@
 This tutorial is intended for users of the Instance Manager service API.
 
 We'll be targeting the dev environment on the test cluster found
-at [https://dev.api.im.dhis2.org](https://dev.api.im.dhis2.org).
+at [https://api.im-dev.dhis2.org](https://api.im-dev.dhis2.org).
 
 Alternatively, a small project which can assists with the creation of a locally running cluster can be
 found [here](https://github.com/dhis2-sre/im-cluster).
@@ -66,14 +66,14 @@ The following applications are needed by the scripts
 Run the below command to confirm the service is running.
 
 ```sh
-http https://dev.api.im.dhis2.org/health
+http https://api.im-dev.dhis2.org/health
 ```
 
 ## Docs
 
 The Instance Manager service API documentation can be found via the following link
 
-* [https://dev.api.im.dhis2.org/docs](https://dev.api.im.dhis2.org/docs)
+* [https://api.im-dev.dhis2.org/docs](https://api.im-dev.dhis2.org/docs)
 
 ## User scripts
 
@@ -85,7 +85,7 @@ The service strives to implement set of scripts such that each endpoint comes wi
 
 ## Environment
 
-The services deployed in the "dev" environment are all accessed through at [https://dev.api.im.dhis2.org](https://dev.api.im.dhis2.org).
+The services deployed in the "dev" environment are all accessed through at [https://api.im-dev.dhis2.org](https://api.im-dev.dhis2.org).
 
 ```sh
 git clone git@github.com:dhis2-sre/im-manager.git
@@ -108,7 +108,7 @@ In order to automatically export the variables, the author of this application r
 If we're targeting the "dev" environment, the variable `INSTANCE_HOST`, should be defined as below
 
 ```sh
-INSTANCE_HOST=https://dev.api.im.dhis2.org
+INSTANCE_HOST=https://api.im-dev.dhis2.org
 ```
 
 Alternatively, a locally running cluster could be targeted as below
@@ -249,7 +249,7 @@ cd scripts/instances
 We can assert the service is running by running the below command
 
 ```sh
-http https://dev.api.im.dhis2.org/health
+http https://api.im-dev.dhis2.org/health
 ```
 
 The service is running correctly if the above returns 200 and "status: up".
@@ -331,7 +331,7 @@ credentials needed to connect.
 
 * Requires: [yq](https://github.com/mikefarah/yq)
 
-Edit `./deploy-batch.yaml`. 
+Edit `./deploy-batch.yaml`.
 
 * Configure a "prefix" (`IM_PREFIX_MULTI`) in the preferences section and adjust any other preferences.
 * Add or adjust the defined sets.
